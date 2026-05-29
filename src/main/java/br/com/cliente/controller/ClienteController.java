@@ -38,4 +38,10 @@ public class ClienteController {
         return ResponseEntity.ok(service.buscarPorEmail(email));
     }
 
+    @PutMapping
+    public ResponseEntity<ClienteResponseDTO> atualizarDados(@RequestBody ClienteRequestDTO requestDTO,
+                                                             @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(service.altualizarDados(requestDTO, token));
+    }
+
 }
