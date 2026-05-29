@@ -44,4 +44,10 @@ public class ClienteController {
         return ResponseEntity.ok(service.altualizarDados(requestDTO, token));
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deletarClientePorEmail(@RequestHeader("Authorization") String token){
+        service.deletarClientePorEmail(token);
+        return ResponseEntity.ok().build();
+    }
+
 }

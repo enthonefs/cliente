@@ -96,4 +96,10 @@ public class ClienteService {
 
     }
 
+    public void deletarClientePorEmail(String token){
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+
+        clienteRepository.deleteByEmail(email);
+    }
+
 }
