@@ -5,6 +5,8 @@ import br.com.cliente.business.dto.out.ClienteResponseDTO;
 import br.com.cliente.infrastructure.entitys.Cliente;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ClienteConverter {
 
@@ -26,6 +28,12 @@ public class ClienteConverter {
                 .senha(dto.getSenha())
                 .numero(dto.getNumero())
                 .build();
+    }
+
+    public List<ClienteResponseDTO> paraListaClienteResponseDTO(List<Cliente> clientes){
+        return clientes.stream()
+                .map(this::paraClienteResponseDTO)
+                .toList();
     }
 
 }
