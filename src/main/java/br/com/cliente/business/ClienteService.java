@@ -76,4 +76,24 @@ public class ClienteService {
 
     }
 
+    public ClienteResponseDTO altualizarDados(ClienteRequestDTO requestDTO, String token){
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+
+        Cliente clienteEntity = clienteRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email não encontrado: " + email));
+
+        Cliente clienteAtualizado = Cliente.builder()
+                .id(clienteEntity.getId())
+                .nome(requestDTO.getNome() != null ? requestDTO.getNome() : clienteEntity.getNome())
+                .email(requestDTO.getEmail() != null ? requestDTO.getEmail() : clienteEntity.getEmail())
+                .senha(passwordEncoder.encode(requestDTO.getSenha()) != null ?
+                        passwordEncoder.encode(requestDTO.getSenha()) :
+                        passwordEncoder.encode(clienteEntity.getSenha()))
+                .numero(requestDTO.getNumero() != null ? requestDTO.getNumero() : clienteEntity.getNumero())
+                .build();
+
+        return clienteConverter.paraClienteResponseDTO(clienteRepository.save(clienteAtualizado));
+
+    }
+
 }
