@@ -6,6 +6,7 @@ import br.com.cliente.business.dto.in.LoginRequestDTO;
 import br.com.cliente.business.dto.out.ClienteResponseDTO;
 import br.com.cliente.infrastructure.entitys.Cliente;
 import br.com.cliente.infrastructure.exceptions.ConflictException;
+import br.com.cliente.infrastructure.exceptions.ResourceNotFoundException;
 import br.com.cliente.infrastructure.repository.ClienteRepository;
 import br.com.cliente.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,21 @@ public class ClienteService {
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha())
         );
         return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    }
+
+    public List<ClienteResponseDTO> buscarTodosOsClientes(){
+        List<Cliente> listaClientes = clienteRepository.findAll();
+
+        return clienteConverter.paraListaClienteResponseDTO(listaClientes);
+
+    }
+
+    public ClienteResponseDTO buscarPorEmail(String email){
+        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email não encontrado: " + email));
+
+        return clienteConverter.paraClienteResponseDTO(cliente);
+
     }
 
 }

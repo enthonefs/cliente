@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cliente")
@@ -24,6 +26,16 @@ public class ClienteController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO dto){
         return ResponseEntity.ok(service.login(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClienteResponseDTO>> buscarTodosOsClientes(){
+        return ResponseEntity.ok(service.buscarTodosOsClientes());
+    }
+
+    @GetMapping(params = "email")
+    public ResponseEntity<ClienteResponseDTO> buscarPorEmail(@RequestParam String email){
+        return ResponseEntity.ok(service.buscarPorEmail(email));
     }
 
 }
