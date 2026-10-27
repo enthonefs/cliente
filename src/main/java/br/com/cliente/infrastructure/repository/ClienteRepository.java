@@ -1,8 +1,8 @@
 package br.com.cliente.infrastructure.repository;
 
 import br.com.cliente.infrastructure.entitys.Cliente;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
